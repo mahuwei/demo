@@ -169,6 +169,41 @@
           }
         }
       }
+    },
+    "mhw-lib": {
+      "root": "projects/mhw-lib",
+      "sourceRoot": "projects/mhw-lib/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/mhw-lib/tsconfig.lib.json",
+            "project": "projects/mhw-lib/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/mhw-lib/src/test.ts",
+            "tsConfig": "projects/mhw-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/mhw-lib/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/mhw-lib/tsconfig.lib.json",
+              "projects/mhw-lib/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "demo"

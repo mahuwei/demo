@@ -24,6 +24,12 @@
       ],
       "my-lib/*": [
         "dist/my-lib/*"
+      ],
+      "mhw-lib": [
+        "dist/mhw-lib"
+      ],
+      "mhw-lib/*": [
+        "dist/mhw-lib/*"
       ]
     }
   }
