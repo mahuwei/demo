@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { MyLibService } from 'my-lib/my-lib';
+import { MyLibService } from 'projects/my-lib/src/public-api';
+import { CheckForUpdateService } from './check-for-update.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +10,11 @@ import { MyLibService } from 'my-lib/my-lib';
 })
 export class AppComponent {
   title = 'demo';
-  constructor(private myLibService: MyLibService) {}
+  public version: string;
+  constructor(private myLibService: MyLibService, private checkForUpdate: CheckForUpdateService) {
+    this.version = environment.VERSION;
+  }
+  checkUpate(): void {
+    this.checkForUpdate.checkUpdate();
+  }
 }
