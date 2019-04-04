@@ -1,10 +1,10 @@
 {
   "name": "demo",
-  "version": "0.0.8",
+  "version": "1.0.12",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

@@ -1,27 +1,42 @@
-# Demo
+# Angular Pwa Demo [文档](https://angular.cn/guide/service-worker-getting-started)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.1.
+## 构建项目：
 
-## Development server
+`ng build --prod`
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## 测试时使用 http-server
 
-## Code scaffolding
+`http-server -p 8080 -c-1 dist/demo`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## 过程，[代码参见](src\app\check-for-update.service.ts)
 
-## Build
+### 调用 `SwUpdate.checkForUpdate()`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+如果没有获取到需要更新的版本信息，后续的事件不会触发
 
-## Running unit tests
+### 触发回调事件：available
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. 回调携带参数：UpdateAvailableEvent，分为两部分：
+   - current:当前版本信息
+   - available:可获取的版本信息
+   - 判断版本是否更新通过：current.hash !== available.hash 来判断
+   - current 和 available 的 appData 来自[ngsw-config.json](src\ngsw-config.json)中的"appData"设置
+2. 判断有新版本，调用:`SwUpdate.activateUpdate(): Promise<void>`获取新版本
+   - 更新成功后会先触发`SwUpdate.activated()`
+   - 然后在返回 SwUpdate.activateUpdate()的回调结果
+   - 可以在上述两个位置进行判断可以重新加载了
 
-## Running end-to-end tests
+### 重新加载
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+`document.location.reload();`
 
-## Further help
+## 定时自动检查是否新的更新
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+详细查看[文档](https://angular.cn/guide/service-worker-communications)
+为了避免影响页面的首次渲染，在注册 ServiceWorker 脚本之前，ServiceWorkerModule 默认会等待应用程序达到稳定态。如果不断轮询更新（比如调用 interval()）将阻止应用程序达到稳定态，也就永远不会往浏览器中注册 ServiceWorker 脚本。
+在开始轮询更新之前，你可以先等待应用程序达到稳定态，以避免这种情况（如上例所示）。
+请注意，应用中所执行的各种轮询都会阻止它达到稳定态。欲知详情，参见 isStable 文档。
+
+## 在[ngsw-config.json](src\ngsw-config.json)中的"appData"设置更新内容
+
+添加版本号、更新日期、是否需要强制更新、更新说明
