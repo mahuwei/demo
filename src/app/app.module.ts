@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { CheckForUpdateService } from './check-for-update.service';
+import { CheckForUpdateService } from './update-entities/check-for-update.service';
 
 @NgModule({
   declarations: [AppComponent],

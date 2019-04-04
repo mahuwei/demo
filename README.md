@@ -39,4 +39,4 @@
 
 ## 在[ngsw-config.json](src\ngsw-config.json)中的"appData"设置更新内容
 
-添加版本号、更新日期、是否需要强制更新、更新说明
+添加版本号、更新日期、是否需要强制更新、更新说明;[参考](src\app\update-entities\update-data.ts)

@@ -1,5 +1,10 @@
 {
-  "appData": "添加AppData节点，v1.0.12",
+  "appData": {
+    "version": "1.0.14",
+    "date": "2019-4-4",
+    "isForceUpdate": false,
+    "infomation": "更新说明"
+  },
   "index": "/index.html",
   "assetGroups": [{
     "name": "app",
