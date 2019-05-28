@@ -21,24 +21,28 @@ export class CheckForUpdateService {
     const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$);
     everySixHoursOnceAppIsStable$.subscribe(() => updates.checkForUpdate());
 
-    updates.available.subscribe(event => {
-      console.log('available:current version is', event.current);
-      console.log('available:available version is', event.available);
+    updates.available.subscribe(
+      event => {
+        console.log('available:current version is', event.current);
+        console.log('available:available version is', event.available);
 
-      if (event.current.hash !== event.available.hash) {
-        const updateInfo = event.available.appData as IUpdateAppData;
-        this.updateData.change(UpdateStatus.activateUpdate, updateInfo);
-        this.updateSubjcet.next(this.updateData);
-        console.log('10ms后获取新版本');
-        setTimeout(() => {
+        if (event.current.hash !== event.available.hash) {
+          const updateInfo = event.available.appData as IUpdateAppData;
+          this.updateData.change(UpdateStatus.activateUpdate, updateInfo);
+          this.updateSubjcet.next(this.updateData);
           this.updateSubjcet.next(this.updateData);
           updates.activateUpdate().then(() => {
             console.log('activateUpdate更新完成可以重新加载。');
-            // document.location.reload();
           });
-        }, 10 * 1000);
-      }
-    });
+        }
+      },
+      error => {
+        console.log('updates.available error:', error);
+      },
+      () => {
+        console.log('updates.available completed。');
+      },
+    );
 
     updates.activated.subscribe(event => {
       console.log('activated:old version was', event.previous);
